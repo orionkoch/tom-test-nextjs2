@@ -29,7 +29,7 @@ function About() {
       params={useRouter()?.query}
       query={useRouter()?.query}
     >
-      <PlasmicAbout />
+      <PlasmicAbout productButton={{onClick: (e) => {alert("This is the product button!!")} }} />
     </ph.PageParamsProvider>
   );
 }
