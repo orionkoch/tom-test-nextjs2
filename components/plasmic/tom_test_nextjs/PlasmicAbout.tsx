@@ -61,6 +61,7 @@ export const PlasmicAbout__ArgProps = new Array<ArgPropType>();
 export type PlasmicAbout__OverridesType = {
   root?: p.Flex<"div">;
   headerHeroSection?: p.Flex<"div">;
+  productButton?: p.Flex<typeof Button>;
   purchaseButton?: p.Flex<typeof Button>;
   h1?: p.Flex<"h1">;
 };
@@ -184,9 +185,11 @@ function PlasmicAbout__RenderFunc(props: {
                           )}
                         >
                           <Button
+                            data-plasmic-name={"productButton"}
+                            data-plasmic-override={overrides.productButton}
                             className={classNames(
                               "__wab_instance",
-                              sty.button__sXiV
+                              sty.productButton
                             )}
                             color={"navLink" as const}
                             endIcon={
@@ -6732,8 +6735,14 @@ function PlasmicAbout__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "headerHeroSection", "purchaseButton", "h1"],
-  headerHeroSection: ["headerHeroSection", "purchaseButton", "h1"],
+  root: ["root", "headerHeroSection", "productButton", "purchaseButton", "h1"],
+  headerHeroSection: [
+    "headerHeroSection",
+    "productButton",
+    "purchaseButton",
+    "h1"
+  ],
+  productButton: ["productButton"],
   purchaseButton: ["purchaseButton"],
   h1: ["h1"]
 } as const;
@@ -6743,6 +6752,7 @@ type DescendantsType<T extends NodeNameType> =
 type NodeDefaultElementType = {
   root: "div";
   headerHeroSection: "div";
+  productButton: typeof Button;
   purchaseButton: typeof Button;
   h1: "h1";
 };
@@ -6809,6 +6819,7 @@ export const PlasmicAbout = Object.assign(
   {
     // Helper components rendering sub-elements
     headerHeroSection: makeNodeComponent("headerHeroSection"),
+    productButton: makeNodeComponent("productButton"),
     purchaseButton: makeNodeComponent("purchaseButton"),
     h1: makeNodeComponent("h1"),
 
