@@ -54,6 +54,7 @@ export type PlasmicHomepage__OverridesType = {
   section?: p.Flex<"section">;
   h1?: p.Flex<"h1">;
   text?: p.Flex<"div">;
+  link?: p.Flex<"a"> & Partial<LinkProps>;
 };
 
 export interface DefaultHomepageProps {}
@@ -156,9 +157,28 @@ function PlasmicHomepage__RenderFunc(props: {
                 </span>
                 <React.Fragment>
                   {
-                    " button in the top right and follow the quickstart instructions.\n\nJoin our Slack community (icon in bottom left) for help any time.\n\nThis is some more text to trigger a change..."
+                    " button in the top right and follow the quickstart instructions.\n\nJoin our Slack community (icon in bottom left) for help any time.\n\nSee the About"
                   }
                 </React.Fragment>
+                {
+                  <p.PlasmicLink
+                    data-plasmic-name={"link"}
+                    data-plasmic-override={overrides.link}
+                    className={classNames(
+                      projectcss.all,
+                      projectcss.a,
+                      projectcss.__wab_text,
+                      projectcss.plasmic_default__inline,
+                      sty.link
+                    )}
+                    component={Link}
+                    href={"/about" as const}
+                    platform={"nextjs"}
+                  >
+                    {"/about"}
+                  </p.PlasmicLink>
+                }
+                <React.Fragment>{" page."}</React.Fragment>
               </React.Fragment>
             </div>
           </p.Stack>
@@ -169,10 +189,11 @@ function PlasmicHomepage__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "section", "h1", "text"],
-  section: ["section", "h1", "text"],
+  root: ["root", "section", "h1", "text", "link"],
+  section: ["section", "h1", "text", "link"],
   h1: ["h1"],
-  text: ["text"]
+  text: ["text", "link"],
+  link: ["link"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
@@ -182,6 +203,7 @@ type NodeDefaultElementType = {
   section: "section";
   h1: "h1";
   text: "div";
+  link: "a";
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -248,6 +270,7 @@ export const PlasmicHomepage = Object.assign(
     section: makeNodeComponent("section"),
     h1: makeNodeComponent("h1"),
     text: makeNodeComponent("text"),
+    link: makeNodeComponent("link"),
 
     // Metadata about props expected for PlasmicHomepage
     internalVariantProps: PlasmicHomepage__VariantProps,

@@ -61,6 +61,7 @@ export const PlasmicAbout__ArgProps = new Array<ArgPropType>();
 export type PlasmicAbout__OverridesType = {
   root?: p.Flex<"div">;
   headerHeroSection?: p.Flex<"div">;
+  purchaseButton?: p.Flex<typeof Button>;
   h1?: p.Flex<"h1">;
 };
 
@@ -220,9 +221,11 @@ function PlasmicAbout__RenderFunc(props: {
                           </Button>
 
                           <Button
+                            data-plasmic-name={"purchaseButton"}
+                            data-plasmic-override={overrides.purchaseButton}
                             className={classNames(
                               "__wab_instance",
-                              sty.button___6Pufi
+                              sty.purchaseButton
                             )}
                             color={"navLink" as const}
                             endIcon={
@@ -234,7 +237,7 @@ function PlasmicAbout__RenderFunc(props: {
                                 role={"img"}
                               />
                             }
-                            link={"#" as const}
+                            link={`/`}
                             startIcon={
                               <svg
                                 className={classNames(
@@ -6729,8 +6732,9 @@ function PlasmicAbout__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "headerHeroSection", "h1"],
-  headerHeroSection: ["headerHeroSection", "h1"],
+  root: ["root", "headerHeroSection", "purchaseButton", "h1"],
+  headerHeroSection: ["headerHeroSection", "purchaseButton", "h1"],
+  purchaseButton: ["purchaseButton"],
   h1: ["h1"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
@@ -6739,6 +6743,7 @@ type DescendantsType<T extends NodeNameType> =
 type NodeDefaultElementType = {
   root: "div";
   headerHeroSection: "div";
+  purchaseButton: typeof Button;
   h1: "h1";
 };
 
@@ -6804,6 +6809,7 @@ export const PlasmicAbout = Object.assign(
   {
     // Helper components rendering sub-elements
     headerHeroSection: makeNodeComponent("headerHeroSection"),
+    purchaseButton: makeNodeComponent("purchaseButton"),
     h1: makeNodeComponent("h1"),
 
     // Metadata about props expected for PlasmicAbout
