@@ -34,6 +34,7 @@ import {
   deriveRenderOpts,
   ensureGlobalVariants
 } from "@plasmicapp/react-web";
+import { DataFetcher } from "@plasmicpkgs/plasmic-query"; // plasmic-import: ae7V86eNoXA/codeComponent
 
 import "@plasmicapp/react-web/lib/plasmic.css";
 
@@ -53,8 +54,9 @@ export type PlasmicHomepage__OverridesType = {
   root?: p.Flex<"div">;
   section?: p.Flex<"section">;
   h1?: p.Flex<"h1">;
-  text?: p.Flex<"div">;
   link?: p.Flex<"a"> & Partial<LinkProps>;
+  httpApiFetcher?: p.Flex<typeof DataFetcher>;
+  freeBox?: p.Flex<"div">;
 };
 
 export interface DefaultHomepageProps {}
@@ -135,12 +137,10 @@ function PlasmicHomepage__RenderFunc(props: {
             </h1>
 
             <div
-              data-plasmic-name={"text"}
-              data-plasmic-override={overrides.text}
               className={classNames(
                 projectcss.all,
                 projectcss.__wab_text,
-                sty.text
+                sty.text__wFw2T
               )}
             >
               <React.Fragment>
@@ -181,6 +181,78 @@ function PlasmicHomepage__RenderFunc(props: {
                 <React.Fragment>{" page."}</React.Fragment>
               </React.Fragment>
             </div>
+
+            <DataFetcher
+              data-plasmic-name={"httpApiFetcher"}
+              data-plasmic-override={overrides.httpApiFetcher}
+              className={classNames("__wab_instance", sty.httpApiFetcher)}
+              dataName={"fetchedData" as const}
+              errorDisplay={
+                <ph.DataCtxReader>
+                  {$ctx => "Error fetching data"}
+                </ph.DataCtxReader>
+              }
+              headers={{
+                "Api-Key": "3358e704321d4fbc8685f56b4efa6116",
+                SiteId: "-99",
+                "User-Agent": "K9Coders",
+                "Content-Type": "application/json",
+                Accept: "application/json"
+              }}
+              loadingDisplay={
+                <ph.DataCtxReader>{$ctx => "Loading..."}</ph.DataCtxReader>
+              }
+              method={"GET" as const}
+              noLayout={false}
+              previewErrorDisplay={false}
+              previewSpinner={false}
+              url={
+                "https://api.mindbodyonline.com/public/v6/class/classes" as const
+              }
+            >
+              <ph.DataCtxReader>
+                {$ctx =>
+                  (
+                    (() => {
+                      try {
+                        return $ctx.fetchedData.products;
+                      } catch (e) {
+                        if (e instanceof TypeError) {
+                          return [];
+                        }
+                        throw e;
+                      }
+                    })() ?? []
+                  ).map((currentItem, currentIndex) => (
+                    <div
+                      data-plasmic-name={"freeBox"}
+                      data-plasmic-override={overrides.freeBox}
+                      className={classNames(projectcss.all, sty.freeBox)}
+                      key={currentIndex}
+                    >
+                      <div
+                        className={classNames(
+                          projectcss.all,
+                          projectcss.__wab_text,
+                          sty.text__pKLrw
+                        )}
+                      >
+                        {(() => {
+                          try {
+                            return currentItem.title;
+                          } catch (e) {
+                            if (e instanceof TypeError) {
+                              return "Enter some text";
+                            }
+                            throw e;
+                          }
+                        })()}
+                      </div>
+                    </div>
+                  ))
+                }
+              </ph.DataCtxReader>
+            </DataFetcher>
           </p.Stack>
         </div>
       </div>
@@ -189,11 +261,12 @@ function PlasmicHomepage__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "section", "h1", "text", "link"],
-  section: ["section", "h1", "text", "link"],
+  root: ["root", "section", "h1", "link", "httpApiFetcher", "freeBox"],
+  section: ["section", "h1", "link", "httpApiFetcher", "freeBox"],
   h1: ["h1"],
-  text: ["text", "link"],
-  link: ["link"]
+  link: ["link"],
+  httpApiFetcher: ["httpApiFetcher", "freeBox"],
+  freeBox: ["freeBox"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
@@ -202,8 +275,9 @@ type NodeDefaultElementType = {
   root: "div";
   section: "section";
   h1: "h1";
-  text: "div";
   link: "a";
+  httpApiFetcher: typeof DataFetcher;
+  freeBox: "div";
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -269,8 +343,9 @@ export const PlasmicHomepage = Object.assign(
     // Helper components rendering sub-elements
     section: makeNodeComponent("section"),
     h1: makeNodeComponent("h1"),
-    text: makeNodeComponent("text"),
     link: makeNodeComponent("link"),
+    httpApiFetcher: makeNodeComponent("httpApiFetcher"),
+    freeBox: makeNodeComponent("freeBox"),
 
     // Metadata about props expected for PlasmicHomepage
     internalVariantProps: PlasmicHomepage__VariantProps,
